@@ -1,22 +1,24 @@
 <template>
-  <div class="register-container">
-    <div class="register-form">
-      <h2 class="title">Regístrate</h2>
-      <form @submit.prevent="registerUser">
-        <div class="input-group">
-          <input v-model="email" type="email" placeholder="Correo electrónico" required />
-        </div>
-        <div class="input-group">
-          <input v-model="password" type="password" placeholder="Contraseña" required />
-        </div>
-        <div class="input-group">
-          <input v-model="confirmPassword" type="password" placeholder="Confirmar Contraseña" required />
-        </div>
-        <button type="submit" class="submit-btn">Registrar</button>
-      </form>
-      <p class="login-link">
-        ¿Ya tienes cuenta? <a href="#">Inicia sesión aquí</a>
-      </p>
+  <div class="register-page">
+    <div class="register-container">
+      <div class="register-form">
+        <h2 class="title">Regístrate</h2>
+        <form @submit.prevent="registerUser">
+          <div class="input-group">
+            <input v-model="email" type="email" placeholder="Correo electrónico" required />
+          </div>
+          <div class="input-group">
+            <input v-model="password" type="password" placeholder="Contraseña" required />
+          </div>
+          <div class="input-group">
+            <input v-model="confirmPassword" type="password" placeholder="Confirmar Contraseña" required />
+          </div>
+          <button type="submit" class="submit-btn">Registrar</button>
+        </form>
+        <p class="login-link">
+          ¿Ya tienes cuenta? <router-link to="/login">Inicia sesión aquí</router-link>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -25,7 +27,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'RegisterForm',
+  name: 'RegisterPage',
   data() {
     return {
       email: '',
@@ -35,48 +37,50 @@ export default {
   },
   methods: {
     async registerUser() {
-  if (this.password !== this.confirmPassword) {
-    alert('Las contraseñas no coinciden');
-    return;
-  }
-
-  try {
-    await axios.post('http://tu-backend/api/register', {
-      email: this.email,
-      password: this.password
-    });
-    alert('Usuario registrado con éxito');
-  } catch (error) {
-    alert('Error al registrar usuario');
-  }
-}
+      if (this.password !== this.confirmPassword) {
+        alert('Las contraseñas no coinciden');
+        return;
+      }
+      try {
+        await axios.post('http://tu-backend/api/register', {
+          email: this.email,
+          password: this.password
+        });
+        alert('Usuario registrado con éxito');
+        this.$router.push('/login'); // Redirigir al login después del registro
+      } catch (error) {
+        alert('Error al registrar usuario');
+      }
+    }
   }
 };
 </script>
 
 <style scoped>
-.register-container {
+.register-page {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: linear-gradient(to left, #ff7e5f, #feb47b); 
+  background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Fondo vibrante */
 }
 
-.register-form {
-  background: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 350px;
+.register-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  width: 400px;
   text-align: center;
+  animation: zoomIn 1s ease-out;
 }
 
 .title {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 30px;
+  font-weight: bold;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  text-transform: uppercase;
 }
 
 .input-group {
@@ -85,11 +89,12 @@ export default {
 
 input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 10px;
   outline: none;
+  transition: all 0.3s ease;
 }
 
 input:focus {
@@ -104,8 +109,9 @@ input:focus {
   border: none;
   color: white;
   font-size: 16px;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .submit-btn:hover {
@@ -120,9 +126,21 @@ input:focus {
 .login-link a {
   color: #ff7e5f;
   text-decoration: none;
+  font-weight: 500;
 }
 
 .login-link a:hover {
   text-decoration: underline;
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 </style>

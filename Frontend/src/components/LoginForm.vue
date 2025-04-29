@@ -1,19 +1,21 @@
 <template>
-  <div class="login-container">
-    <div class="login-form">
-      <h2 class="title">Iniciar sesión</h2>
-      <form @submit.prevent="loginUser">
-        <div class="input-group">
-          <input v-model="email" type="email" placeholder="Correo electrónico 2" required />
-        </div>
-        <div class="input-group">
-          <input v-model="password" type="password" placeholder="Contraseña" required />
-        </div>
-        <button type="submit" class="submit-btn">Iniciar sesión</button>
-      </form>
-      <p class="signup-link">
-        ¿No tienes una cuenta? <a href="#">Regístrate aquí</a>
-      </p>
+  <div class="login-page">
+    <div class="login-container">
+      <div class="login-form">
+        <h2 class="title">Iniciar sesión</h2>
+        <form @submit.prevent="loginUser">
+          <div class="input-group">
+            <input v-model="email" type="email" placeholder="Correo electrónico" required />
+          </div>
+          <div class="input-group">
+            <input v-model="password" type="password" placeholder="Contraseña" required />
+          </div>
+          <button type="submit" class="submit-btn">Iniciar sesión</button>
+        </form>
+        <p class="signup-link">
+          ¿No tienes una cuenta? <router-link to="/register">Regístrate aquí</router-link>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -22,7 +24,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'LoginForm',
+  name: 'LoginPage',
   data() {
     return {
       email: '',
@@ -36,7 +38,8 @@ export default {
           email: this.email,
           password: this.password
         });
-        localStorage.setItem('token', response.data.token); 
+        localStorage.setItem('token', response.data.token);
+        this.$router.push('/dashboard'); // Redirigir al dashboard después de login
         alert('Inicio de sesión exitoso');
       } catch (error) {
         alert('Credenciales incorrectas');
@@ -47,29 +50,30 @@ export default {
 </script>
 
 <style scoped>
-/* Estilo general para el contenedor de login */
-.login-container {
+.login-page {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: linear-gradient(to right, #00b4db, #0083b0); /* Fondo degradado */
+  background: radial-gradient(circle, #a1c4fd, #c2e9fb); /* Fondo atractivo */
 }
 
-.login-form {
-  background: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 350px;
+.login-container {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  width: 400px;
   text-align: center;
+  animation: bounceIn 1s ease-out;
 }
 
 .title {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 30px;
+  font-weight: bold;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  text-transform: uppercase;
 }
 
 .input-group {
@@ -78,31 +82,33 @@ export default {
 
 input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 10px;
   outline: none;
+  transition: all 0.3s ease;
 }
 
 input:focus {
-  border-color: #00b4db;
-  box-shadow: 0 0 5px rgba(0, 180, 219, 0.5);
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 .submit-btn {
   width: 100%;
   padding: 12px;
-  background-color: #00b4db;
+  background-color: #007bff;
   border: none;
   color: white;
   font-size: 16px;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .submit-btn:hover {
-  background-color: #0083b0;
+  background-color: #0056b3;
 }
 
 .signup-link {
@@ -111,11 +117,27 @@ input:focus {
 }
 
 .signup-link a {
-  color: #00b4db;
+  color: #007bff;
   text-decoration: none;
+  font-weight: 500;
 }
 
 .signup-link a:hover {
   text-decoration: underline;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
