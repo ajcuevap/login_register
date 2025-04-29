@@ -4,7 +4,7 @@
       <h2 class="title">Iniciar sesión</h2>
       <form @submit.prevent="loginUser">
         <div class="input-group">
-          <input v-model="email" type="email" placeholder="Correo electrónico" required />
+          <input v-model="email" type="email" placeholder="Correo electrónico 2" required />
         </div>
         <div class="input-group">
           <input v-model="password" type="password" placeholder="Contraseña" required />
